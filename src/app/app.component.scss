@@ -1,0 +1,15 @@
+.base{
+    display: flex;
+    padding: 20px;
+    .textarea{
+        width: 400px;
+        margin-left: 50px;
+        resize: none;
+    }
+    .condition{
+        width: 800px;
+    }
+    .button{
+        margin-top: 10px;
+    }
+}

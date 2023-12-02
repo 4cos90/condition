@@ -1,0 +1,51 @@
+<div class="group">
+    <ng-container *ngFor="let condition of data; index as i">
+        <ng-container *ngIf="condition.type === Type.Operater">
+            <div class="item">
+                <nz-select class="value" [(ngModel)]="condition.value" nzPlaceHolder="choose operater">
+                    <nz-option nzValue="and" nzLabel="与"></nz-option>
+                    <nz-option nzValue="or" nzLabel="或"></nz-option>
+                </nz-select>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="condition.type === Type.Condition">
+            <div class="item">
+                <span *ngIf="i !== 0" class="icon" nz-icon nzType="delete" nzTheme="outline" (click)="delete(i)"></span>
+                <div class="condition">
+                    <nz-select class="conditionvalue" [(ngModel)]="condition.cachefilter"
+                        (ngModelChange)="filterChange($event,condition)" nzPlaceHolder="Choose Field">
+                        <nz-option *ngFor="let filter of filterList" [nzLabel]="filter.name"
+                            [nzValue]="filter"></nz-option>
+                    </nz-select>
+                    <nz-select class="conditionopt" [(ngModel)]="condition.filter.compare"
+                        nzPlaceHolder="Choose Operater">
+                        <nz-option nzValue="greater" nzLabel="大于"></nz-option>
+                        <nz-option nzValue="greaterequal" nzLabel="大于等于"></nz-option>
+                        <nz-option nzValue="equal" nzLabel="等于"></nz-option>
+                        <nz-option nzValue="less" nzLabel="小于"></nz-option>
+                        <nz-option nzValue="lessequal" nzLabel="小于等于"></nz-option>
+                    </nz-select>
+                    <ng-container *ngIf="condition.filter.type === 'string'">
+                        <input class="conditionvalue" nz-input placeholder="input condition"
+                            [(ngModel)]="condition.filter.condition" [disabled]="!condition.filter.code" />
+                    </ng-container>
+                    <ng-container *ngIf="condition.filter.type === 'time'">
+                        <nz-date-picker class="conditionvalue" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"
+                            [(ngModel)]="condition.filter.condition"
+                            [nzDisabled]="!condition.filter.code"></nz-date-picker>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="condition.type === Type.Group">
+            <div class="item">
+                <span class="icon" nz-icon nzType="delete" nzTheme="outline" (click)="delete(i)"></span>
+                <app-condition class="value" [data]="condition.group" [filterList]="filterList"></app-condition>
+            </div>
+        </ng-container>
+    </ng-container>
+    <div class="item">
+        <button nz-button [nzSize]="'default'" nzType="primary" (click)="addGroup()">添加组</button>
+        <button nz-button [nzSize]="'default'" nzType="primary" (click)="addItem()">添加关联关系</button>
+    </div>
+</div>

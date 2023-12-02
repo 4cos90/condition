@@ -1,0 +1,41 @@
+.group {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.item {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .icon {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .condition {
+        width: calc(100% - 20px);
+        display: flex;
+        justify-content: space-between;
+
+        .conditionvalue {
+            width: 40%;
+        }
+
+        .conditionopt {
+            width: 15%;
+        }
+    }
+
+    .value {
+        width: calc(100% - 20px);
+    }
+}
+
+[nz-button] {
+    margin-right: 8px;
+}
