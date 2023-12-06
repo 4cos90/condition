@@ -16,6 +16,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 registerLocaleData(zh);
 
@@ -34,6 +35,7 @@ registerLocaleData(zh);
     NzButtonModule,
     NzIconModule,
     NzDatePickerModule,
+    NzCheckboxModule,
     BrowserAnimationsModule
   ],
   providers: [

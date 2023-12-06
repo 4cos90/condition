@@ -10,7 +10,7 @@ export class AppComponent {
   sqltext = "";
   data: Condition[] = [
     {
-      type: Type.Condition, value: Operater.And, filter: {
+      type: Type.Condition, operater: Operater.And, checked: false, filter: {
         name: "",
         code: "",
         compare: Compare.Equal,
@@ -53,17 +53,30 @@ export class AppComponent {
       name: "字符串E",
       code: "FieldE",
       compare: Compare.Equal,
-      type: "string",
+      type: "list",
       condition: "",
     },
     {
       name: "字符串F",
       code: "FieldF",
-      compare: Compare.Equal,
-      type: "string",
+      compare: Compare.In,
+      type: "multilist",
       condition: "",
     }
   ]
+
+  valueList = {
+    FieldE: [
+      { name: "下拉框EA", value: "EA" },
+      { name: "下拉框EB", value: "EB" },
+      { name: "下拉框EC", value: "EC" },
+    ],
+    FieldF: [
+      { name: "下拉框FA", value: "FA" },
+      { name: "下拉框FB", value: "FB" },
+      { name: "下拉框FC", value: "FC" },
+    ]
+  }
 
   getSQL() {
     this.sqltext = this.formatSQL(this.data);
@@ -71,7 +84,10 @@ export class AppComponent {
 
   formatSQL(conditions: Condition[]) {
     let rlt = "";
-    conditions.forEach(o => {
+    conditions.forEach((o, index) => {
+      if (index !== 0) {
+        rlt += ` ${o.operater} `
+      }
       if (o.type === Type.Condition) {
         let compare = "";
         if (o.filter.compare === Compare.Greater) {
@@ -84,10 +100,10 @@ export class AppComponent {
           compare = "<"
         } else if (o.filter.compare === Compare.LessEqual) {
           compare = "<="
+        } else if (o.filter.compare === Compare.In) {
+          compare = "in"
         }
         rlt += `${o.filter.code} ${compare} ${o.filter.type === 'string' ? o.filter.condition : new Date(o.filter.condition.toString()).getTime()}`;
-      } else if (o.type === Type.Operater) {
-        rlt += ` ${o.value} `;
       } else if (o.type === Type.Group) {
         rlt += `(${this.formatSQL(o.group)})`;
       }

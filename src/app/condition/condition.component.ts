@@ -10,6 +10,8 @@ export class ConditionComponent implements OnInit {
 
   @Input() data: Condition[] = [];
   @Input() filterList: Filter[] = [];
+  @Input() valueList: any = {};
+  @Input() showAddGroup: boolean = false;
 
   Type = Type;
   Operater = Operater;
@@ -21,25 +23,16 @@ export class ConditionComponent implements OnInit {
   }
 
   addGroup() {
-    const NewOpt = {
-      type: Type.Operater, value: Operater.And, filter: {
+    const NewGroup: Condition = {
+      type: Type.Group, operater: Operater.And, filter: {
         name: "",
         code: "",
         compare: Compare.Equal,
         type: "string",
         condition: "",
-      }, group: []
-    }
-    const NewGroup = {
-      type: Type.Group, value: Operater.And, filter: {
-        name: "",
-        code: "",
-        compare: Compare.Equal,
-        type: "string",
-        condition: "",
-      }, group: [
+      }, checked: false, group: [
         {
-          type: Type.Condition, value: Operater.And, filter: {
+          type: Type.Condition, operater: Operater.And, checked: false, filter: {
             name: "",
             code: "",
             compare: Compare.Equal,
@@ -49,13 +42,12 @@ export class ConditionComponent implements OnInit {
         }
       ]
     }
-    this.data.push(NewOpt);
     this.data.push(NewGroup);
   }
 
   addItem() {
-    const NewOpt = {
-      type: Type.Operater, value: Operater.And, filter: {
+    const NewCondition: Condition = {
+      type: Type.Condition, operater: Operater.And, checked: false, filter: {
         name: "",
         code: "",
         compare: Compare.Equal,
@@ -63,16 +55,6 @@ export class ConditionComponent implements OnInit {
         condition: "",
       }, group: []
     }
-    const NewCondition = {
-      type: Type.Condition, value: Operater.And, filter: {
-        name: "",
-        code: "",
-        compare: Compare.Equal,
-        type: "string",
-        condition: "",
-      }, group: []
-    }
-    this.data.push(NewOpt);
     this.data.push(NewCondition);
   }
 
@@ -87,5 +69,9 @@ export class ConditionComponent implements OnInit {
     } else if (event.type === 'time') {
       condition.filter.condition = new Date();
     }
+  }
+
+  groupItem() {
+
   }
 }

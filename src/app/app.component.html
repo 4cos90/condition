@@ -1,6 +1,6 @@
 <div class="base">
   <div class="condition">
-    <app-condition class="condition" [data]="data" [filterList]="filterList"></app-condition>
+    <app-condition class="condition" [data]="data" [filterList]="filterList" [valueList]="valueList" [showAddGroup]="true"></app-condition>
     <button class="button" nz-button [nzSize]="'default'" nzType="primary" (click)="getSQL()">生成SQL</button>
   </div>
   <textarea class="textarea" rows="4" nz-input [(ngModel)]="sqltext"></textarea>

@@ -1,39 +1,57 @@
-.group {
+.base {
     height: 100%;
     width: 100%;
-    padding: 20px;
-    border: 1px solid black;
 }
 
 .item {
     width: 100%;
-    margin-top: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
 
-    .icon {
-        margin-right: 5px;
-        cursor: pointer;
+.item-icon {
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-opt {
+    width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.item-condition {
+    width: calc(100% - 140px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .conditionvalue {
+        width: calc(50% - 55px);
     }
 
-    .condition {
-        width: calc(100% - 20px);
-        display: flex;
-        justify-content: space-between;
-
-        .conditionvalue {
-            width: 40%;
-        }
-
-        .conditionopt {
-            width: 15%;
-        }
+    .conditionopt {
+        width: 100px;
     }
+}
 
-    .value {
-        width: calc(100% - 20px);
-    }
+.icon {
+    cursor: pointer;
+}
+
+.group {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.value {
+    width: 100%;
 }
 
 [nz-button] {
