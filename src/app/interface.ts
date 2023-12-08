@@ -3,7 +3,7 @@ export interface Condition {
     operater: Operater,
     filter: Filter,
     cachefilter?: Filter,
-    checked:boolean,
+    checked: boolean,
     group: Condition[]
 }
 

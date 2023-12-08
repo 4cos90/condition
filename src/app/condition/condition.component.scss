@@ -8,6 +8,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .item-icon {
@@ -46,7 +48,7 @@
 .group {
     height: 100%;
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     border: 1px solid black;
 }
 
@@ -54,6 +56,7 @@
     width: 100%;
 }
 
-[nz-button] {
-    margin-right: 8px;
+.flex {
+    display: flex;
+    justify-content: space-around;
 }

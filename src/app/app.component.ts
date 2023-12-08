@@ -50,14 +50,14 @@ export class AppComponent {
       condition: "",
     },
     {
-      name: "字符串E",
+      name: "下拉框E",
       code: "FieldE",
       compare: Compare.Equal,
       type: "list",
       condition: "",
     },
     {
-      name: "字符串F",
+      name: "下拉多选F",
       code: "FieldF",
       compare: Compare.In,
       type: "multilist",
@@ -103,7 +103,15 @@ export class AppComponent {
         } else if (o.filter.compare === Compare.In) {
           compare = "in"
         }
-        rlt += `${o.filter.code} ${compare} ${o.filter.type === 'string' ? o.filter.condition : new Date(o.filter.condition.toString()).getTime()}`;
+        let condition;
+        if (o.filter.type === 'time') {
+          condition = new Date(o.filter.condition.toString()).getTime();
+        } else if (o.filter.type === 'multilist') {
+          condition = `(${o.filter.condition.toString()})`;
+        } else {
+          condition = o.filter.condition;
+        }
+        rlt += `${o.filter.code} ${compare} ${condition}`;
       } else if (o.type === Type.Group) {
         rlt += `(${this.formatSQL(o.group)})`;
       }

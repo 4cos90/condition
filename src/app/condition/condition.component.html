@@ -7,25 +7,33 @@
 
         </div>
         <div class="item-icon">
-            <span class="icon" nz-icon nzType="group" nzTheme="outline" (click)="groupItem()"></span>
+            <span class="icon" nz-icon nzType="group" nzTheme="outline" (click)="CreateGroup()"></span>
         </div>
         <div class="item-opt">
-
+            And/Or
         </div>
         <div class="item-condition">
-
+            <div class="conditionvalue">
+                Field*
+            </div>
+            <div class="conditionopt">
+                Operator
+            </div>
+            <div class="conditionvalue">
+                Value
+            </div>
         </div>
     </div>
     <ng-container *ngFor="let condition of data; index as i">
         <div class="item">
             <div class="item-icon">
-                <span class="icon" nz-icon nzType="plus" nzTheme="outline" (click)="addItem()"></span>
+                <span class="icon" nz-icon nzType="plus" nzTheme="outline" (click)="addItem(i)"></span>
             </div>
             <div class="item-icon">
                 <span *ngIf="i !== 0" class="icon" nz-icon nzType="delete" nzTheme="outline" (click)="delete(i)"></span>
             </div>
             <div class="item-icon">
-                <label nz-checkbox [(ngModel)]="condition.checked"></label>
+                <label nz-checkbox [(ngModel)]="condition.checked" [nzDisabled]="getDisabled(condition,i)"></label>
             </div>
             <div class="item-opt">
                 <nz-select class="value" [nzSize]="'small'" [(ngModel)]="condition.operater"
@@ -41,22 +49,55 @@
                         <nz-option *ngFor="let filter of filterList" [nzLabel]="filter.name"
                             [nzValue]="filter"></nz-option>
                     </nz-select>
-                    <nz-select class="conditionopt" [nzSize]="'small'" [(ngModel)]="condition.filter.compare"
-                        nzPlaceHolder="Choose Operater">
-                        <nz-option nzValue="greater" nzLabel="大于"></nz-option>
-                        <nz-option nzValue="greaterequal" nzLabel="大于等于"></nz-option>
-                        <nz-option nzValue="equal" nzLabel="等于"></nz-option>
-                        <nz-option nzValue="less" nzLabel="小于"></nz-option>
-                        <nz-option nzValue="lessequal" nzLabel="小于等于"></nz-option>
-                    </nz-select>
+                    <ng-container *ngIf="condition.filter.type === 'multilist'">
+                        <nz-select class="conditionopt" [nzSize]="'small'" [(ngModel)]="condition.filter.compare"
+                            nzPlaceHolder="choose operater">
+                            <nz-option nzValue="in" nzLabel="in"></nz-option>
+                        </nz-select>
+                    </ng-container>
+                    <ng-container *ngIf="condition.filter.type !== 'multilist'">
+                        <nz-select class="conditionopt" [nzSize]="'small'" [(ngModel)]="condition.filter.compare"
+                            nzPlaceHolder="choose operater">
+                            <nz-option nzValue="greater" nzLabel="大于"></nz-option>
+                            <nz-option nzValue="greaterequal" nzLabel="大于等于"></nz-option>
+                            <nz-option nzValue="equal" nzLabel="等于"></nz-option>
+                            <nz-option nzValue="less" nzLabel="小于"></nz-option>
+                            <nz-option nzValue="lessequal" nzLabel="小于等于"></nz-option>
+                        </nz-select>
+                    </ng-container>
                     <ng-container *ngIf="condition.filter.type === 'string'">
                         <input class="conditionvalue" [nzSize]="'small'" nz-input placeholder="input condition"
                             [(ngModel)]="condition.filter.condition" [disabled]="!condition.filter.code" />
                     </ng-container>
                     <ng-container *ngIf="condition.filter.type === 'time'">
                         <nz-date-picker class="conditionvalue" [nzSize]="'small'" nzFormat="yyyy-MM-dd"
-                            [(ngModel)]="condition.filter.condition"
-                            [nzDisabled]="!condition.filter.code"></nz-date-picker>
+                            [(ngModel)]="condition.filter.condition" [nzDisabled]="!condition.filter.code"
+                            [nzRenderExtraFooter]="footerRender" [nzShowToday]="false">
+                            <ng-template #footerRender>
+                                <div class="flex">
+                                    <a nz-button [nzSize]="'small'" nzType="link"
+                                        (click)="setDate(condition,-30)">一个月前</a>
+                                    <a nz-button [nzSize]="'small'" nzType="link"
+                                        (click)="setDate(condition,-7)">一周前</a>
+                                    <a nz-button [nzSize]="'small'" nzType="link" (click)="setDate(condition,0)">今天</a>
+                                </div>
+                            </ng-template>
+                        </nz-date-picker>
+                    </ng-container>
+
+                    <ng-container *ngIf="condition.filter.type === 'list'">
+                        <nz-select class="conditionvalue" [nzSize]="'small'" [(ngModel)]="condition.filter.condition"
+                            nzPlaceHolder="choose condition">
+                            <nz-option *ngFor="let filter of valueList[condition.filter.code]" [nzLabel]="filter.name"
+                                [nzValue]="filter.value"></nz-option>
+                        </nz-select>
+                    </ng-container>
+                    <ng-container *ngIf="condition.filter.type === 'multilist'">
+                        <nz-select class="conditionvalue" [nzSize]="'small'" [(ngModel)]="condition.filter.condition"
+                            nzPlaceHolder="choose condition" [nzMode]="'multiple'">
+                            <nz-option *ngFor="let filter of valueList[condition.filter.code]" [nzLabel]="filter.name"
+                                [nzValue]="filter.value"></nz-option>
+                        </nz-select>
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="condition.type === Type.Group">
