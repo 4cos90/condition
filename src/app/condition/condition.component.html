@@ -36,7 +36,7 @@
                 <label nz-checkbox [(ngModel)]="condition.checked" [nzDisabled]="getDisabled(condition,i)"></label>
             </div>
             <div class="item-opt">
-                <nz-select class="value" [nzSize]="'small'" [(ngModel)]="condition.operater"
+                <nz-select *ngIf="i !== 0" class="value" [nzSize]="'small'" [(ngModel)]="condition.operater"
                     nzPlaceHolder="choose operater">
                     <nz-option nzValue="and" nzLabel="与"></nz-option>
                     <nz-option nzValue="or" nzLabel="或"></nz-option>
